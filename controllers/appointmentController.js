@@ -5,16 +5,21 @@ const createAppointment = async (req, res) => {
   try {
     console.log("📦 Appointment Data:", req.body);
 
-    const { name, email, phone, doctor, date, time, problem } = req.body;
+    const { name, email, phone, age, gender, address, doctor, date, time, problem } = req.body;
 
-    if (!name || !email || !phone || !doctor || !date || !time) {
+    // validation
+    if (!name || !email || !phone || !age || !gender || !address || !doctor || !date || !time) {
       return res.status(400).json({ message: "All fields required" });
     }
 
+    // ✅ CORRECT: use req.body values
     const appointment = await Appointment.create({
       name,
       email,
       phone,
+      age,
+      gender,
+      address,
       doctor,
       date,
       time,
@@ -31,18 +36,19 @@ const createAppointment = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+// ✅ GET ALL
 const getAppointments = async (req, res) => {
   try {
     const appointments = await Appointment.find().sort({ createdAt: -1 });
-
     res.json(appointments);
-
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Server error" });
   }
 };
 
+// ❌ DELETE
 const deleteAppointment = async (req, res) => {
   try {
     const { id } = req.params;

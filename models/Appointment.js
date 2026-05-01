@@ -13,6 +13,22 @@ const appointmentSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+
+  // ✅ NEW FIELDS
+  age: {
+    type: Number,
+    required: true
+  },
+  gender: {
+    type: String,
+    enum: ["Male", "Female", "Other"],
+    required: true
+  },
+  address: {
+    type: String,
+    required: true
+  },
+
   doctor: {
     type: String,
     required: true
@@ -28,6 +44,7 @@ const appointmentSchema = new mongoose.Schema({
   problem: {
     type: String
   }
+
 }, { timestamps: true });
 
 module.exports = mongoose.model("Appointment", appointmentSchema);
